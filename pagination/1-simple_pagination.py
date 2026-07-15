@@ -8,9 +8,9 @@ from typing import List
 
 def index_range(page: int, page_size: int) -> tuple:
     """Returns a tuple of size two containing a start and end index."""
-    start_index = (page - 1) * page_size
-    end_index = page * page_size
-    return (start_index, end_index)
+    start = (page - 1) * page_size
+    end = page * page_size
+    return (start, end)
 
 
 class Server:
@@ -28,24 +28,27 @@ class Server:
             with open(self.DATA_FILE) as f:
                 reader = csv.reader(f)
                 dataset = [row for row in reader]
+            # Siyahını başlıq (header) olmadan saxlayırıq
             self.__dataset = dataset[1:]
 
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         """Returns the appropriate page of the dataset."""
-        # 1. Assertions to verify types and values
+        # 1. Assertions: hər ikisi int olmalı və 0-dan böyük olmalıdır
         assert isinstance(page, int) and page > 0
         assert isinstance(page_size, int) and page_size > 0
 
-        # 2. Get indices
+        # 2. İndeksləri alırıq
         start, end = index_range(page, page_size)
         
-        # 3. Get the dataset
-        data = self.dataset()
-
-        # 4. Return slice or empty list if out of range
-        if start >= len(data):
+        # 3. Məlumatı yükləyirik
+        dataset = self.dataset()
+        
+        # 4. Sərhədləri yoxlayırıq:
+        # Əgər start indeksi siyahının uzunluğundan böyükdürsə, boş list qaytarırıq
+        if start >= len(dataset):
             return []
         
-        return data[start:end]
+        # 5. Səhifəni qaytarırıq (end indeksi siyahının sonunu keçsə, Python özü avtomatik kəsir)
+        return dataset[start:end]
