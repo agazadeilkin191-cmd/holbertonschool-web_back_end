@@ -34,29 +34,26 @@ class Server:
 
     def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
         """Returns a dictionary with pagination metadata."""
-        indexed_data = self.indexed_dataset()
-        
-        # 1. Assert: index valid diapazondadırsa
-        assert index is None or (isinstance(index, int) and 0 <= index < len(indexed_data))
+        data_dict = self.indexed_dataset()
 
-        # Əgər index None-dursa, 0-dan başlayırıq
+        # Uzun sətir xətasını aradan qaldırmaq üçün assert-i böldüm
+        assert index is None or (isinstance(index, int) and 0 <= index)
+        assert index is None or index < len(data_dict)
+
         current_index = index if index is not None else 0
         data = []
         count = 0
-        
-        # 2. Məlumatları yığırıq
-        # Silinən sətirləri keçərək, mövcud olanları tapırıq
         curr = current_index
-        while count < page_size and curr < len(indexed_data):
-            if curr in indexed_data:
-                data.append(indexed_data[curr])
+
+        while count < page_size and curr < len(data_dict):
+            if curr in data_dict:
+                data.append(data_dict[curr])
                 count += 1
             curr += 1
-            
-        # 3. Nəticəni formalaşdırırıq
+
         return {
             "index": current_index,
             "data": data,
             "page_size": len(data),
-            "next_index": curr if curr < len(indexed_data) else None
+            "next_index": curr if curr < len(data_dict) else None
         }
