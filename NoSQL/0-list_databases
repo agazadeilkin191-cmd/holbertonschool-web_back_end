@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-echo "show dbs" | mongosh --quiet
+echo "show dbs" | mongo
