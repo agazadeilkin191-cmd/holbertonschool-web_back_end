@@ -1,9 +1,2 @@
 #!/usr/bin/env bash
-if command -v mongosh &> /dev/null; then
-    mongosh --quiet --eval "db.adminCommand('listDatabases')"
-elif command -v mongo &> /dev/null; then
-    echo "show dbs" | mongo --quiet
-else
-    echo "MongoDB client not found"
-    exit 1
-fi
+echo "show dbs" | mongo
