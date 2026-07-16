@@ -1,2 +1,6 @@
 #!/usr/bin/env bash
-echo "show dbs" | mongo
+if command -v mongosh &> /dev/null; then
+    echo "show dbs" | mongosh --quiet
+else
+    echo "show dbs" | mongo --quiet
+fi
