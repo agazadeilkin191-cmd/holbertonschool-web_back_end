@@ -1,3 +1,2 @@
 // my comment
-#!/usr/bin/env bash
-mongo --quiet --eval "db.getMongo().getDBNames().forEach(function(d){print(d)})"
+echo "show dbs"
