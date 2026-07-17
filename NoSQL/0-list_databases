@@ -1,3 +1,3 @@
 // my comment
 #!/usr/bin/env bash
-echo "show dbs" | mongo
+mongo --quiet --eval "db.adminCommand('listDatabases')"
