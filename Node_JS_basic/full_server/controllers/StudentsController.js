@@ -6,7 +6,7 @@ class StudentsController {
     try {
       const students = await readDatabase(dbPath);
       let responseText = 'This is the list of our students';
-      
+
       const sortedFields = Object.keys(students).sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));
 
       sortedFields.forEach((field) => {
